@@ -17,3 +17,5 @@ gradle/
 gradlew*
 
 starter/gradle.properties
+
+starter/local.properties
