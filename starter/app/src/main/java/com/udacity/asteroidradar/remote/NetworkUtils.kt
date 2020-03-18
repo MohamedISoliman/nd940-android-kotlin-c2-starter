@@ -34,7 +34,8 @@ fun String.parseAsteroidsJsonResult(
 
             val asteroid = Asteroid(
                 id, codename, formattedDate, absoluteMagnitude,
-                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous
+                estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous,
+                formattedDate
             )
             asteroidList.add(asteroid)
         }

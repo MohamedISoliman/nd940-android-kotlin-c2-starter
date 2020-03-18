@@ -9,7 +9,7 @@ import com.udacity.asteroidradar.entities.Asteroid
  * Created by Mohamed Ibrahim on 3/18/20.
  */
 
-@Database(entities = [Asteroid::class], version = 1, exportSchema = false)
+@Database(entities = [Asteroid::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun asteroidDao(): AsteroidsDao

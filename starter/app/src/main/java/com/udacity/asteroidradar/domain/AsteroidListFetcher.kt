@@ -18,7 +18,7 @@ import java.util.*
  */
 
 class AsteroidListFetcher(
-    private val remoteApi: NasaRemoteApi = RemoteFactory.nasaRemote,
+    private val remoteApi: NasaRemoteApi = AppDependencies.remoteApi,
     private val asteroidDao: AsteroidsDao = AppDependencies.database.asteroidDao()
 ) {
 
@@ -29,12 +29,13 @@ class AsteroidListFetcher(
 
         return flow {
             if (asteroidDao.getRowCount() > 0) {
-                emitAll(asteroidDao.getAsteroidList())
+                asteroidDao.getAsteroidList().collect { emit(it) }
             } else {
                 val remoteData = remoteApi.fetchNasaFeed(startDate, nextFormattedDateList.last())
                     .parseAsteroidsJsonResult(
                         nextFormattedDateList
                     )
+                asteroidDao.insertAll(remoteData)
                 emit(remoteData)
             }
         }

@@ -19,9 +19,11 @@ object AppDependencies {
 
     fun init(app: Application) {
         database = Room.databaseBuilder(
-            app,
-            AppDatabase::class.java, "AsteroidRadar_database"
-        ).build()
+                app,
+                AppDatabase::class.java, "AsteroidRadar_database"
+            )
+            .fallbackToDestructiveMigration()
+            .build()
 
     }
 
