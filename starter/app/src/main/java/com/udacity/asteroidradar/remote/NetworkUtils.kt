@@ -1,6 +1,6 @@
 package com.udacity.asteroidradar.remote
 
-import com.udacity.asteroidradar.Asteroid
+import com.udacity.asteroidradar.entities.Asteroid
 import org.json.JSONObject
 import kotlin.collections.ArrayList
 

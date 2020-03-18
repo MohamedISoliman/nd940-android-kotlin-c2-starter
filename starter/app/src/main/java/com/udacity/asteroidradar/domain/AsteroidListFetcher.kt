@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.domain
 
 import com.udacity.asteroidradar.*
+import com.udacity.asteroidradar.entities.Asteroid
 import com.udacity.asteroidradar.remote.NasaRemoteApi
 import com.udacity.asteroidradar.remote.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.remote.remoteFactory
