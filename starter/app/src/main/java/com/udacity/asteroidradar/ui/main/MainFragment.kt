@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
@@ -60,6 +61,13 @@ class MainFragment : Fragment() {
 
         viewModel.errorLiveData().observe(viewLifecycleOwner, Observer {
             Snackbar.make(mainBinding.root, it, Snackbar.LENGTH_SHORT).show()
+        })
+
+        viewModel.imageOfTheDayLiveData().observe(viewLifecycleOwner, Observer {
+            Picasso.get().load(it.url).into(
+                mainBinding.activityMainImageOfTheDay
+            )
+            mainBinding.textView.text = it.title
         })
     }
 
