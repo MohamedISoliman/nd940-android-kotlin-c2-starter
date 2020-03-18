@@ -40,6 +40,7 @@ class MainViewModel : ViewModel(), CoroutineScope by CoroutineScope(Dispatchers.
     private fun loadAsteroidsAndImageData() {
 
         val imageDataFlow = flow { emit(imageOfTheDayFetcher.fetch()) }
+            .catch { emit(ImageOfTheDay()) }
 
         asteroidListFetcher.fetch()
             .zip(imageDataFlow) { list, imageOfTheDay ->

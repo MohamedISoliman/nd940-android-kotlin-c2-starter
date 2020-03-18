@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AsteroidsDao {
 
-    @Query("SELECT * FROM Asteroid")
+    @Query("SELECT * FROM Asteroid ORDER BY date")
     fun getAsteroidList(): Flow<List<Asteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -40,10 +41,9 @@ class MainFragment : Fragment() {
 
     private fun initViews() {
         with(mainBinding.asteroidRecycler) {
-            layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
             asteroidsAdapter = AsteroidsAdapter {
-
+                findNavController().navigate(MainFragmentDirections.actionShowDetail(it))
             }.also {
                 adapter = it
             }
@@ -64,9 +64,15 @@ class MainFragment : Fragment() {
         })
 
         viewModel.imageOfTheDayLiveData().observe(viewLifecycleOwner, Observer {
-            Picasso.get().load(it.url).into(
-                mainBinding.activityMainImageOfTheDay
-            )
+            if (it.url?.isNotEmpty() == true)
+                Picasso.get().load(it.url)
+                    .error(R.drawable.placeholder_picture_of_day)
+                    .placeholder(R.drawable.placeholder_picture_of_day)
+                    .into(
+                        mainBinding.activityMainImageOfTheDay
+                    )
+            else mainBinding.activityMainImageOfTheDay.setImageResource(R.drawable.placeholder_picture_of_day)
+            
             mainBinding.textView.text = it.title
         })
     }
