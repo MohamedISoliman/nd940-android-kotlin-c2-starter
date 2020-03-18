@@ -15,5 +15,6 @@ class AsteroidRadarApp : Application() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
+        AppDependencies.init(this)
     }
 }

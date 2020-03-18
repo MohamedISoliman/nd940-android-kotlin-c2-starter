@@ -22,7 +22,7 @@ interface NasaRemoteApi {
     ): String
 }
 
-object remoteFactory {
+object RemoteFactory {
 
     val nasaRemote by lazy { createRemote() }
 

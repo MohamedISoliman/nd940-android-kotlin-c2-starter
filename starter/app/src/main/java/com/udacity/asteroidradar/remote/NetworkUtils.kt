@@ -4,11 +4,11 @@ import com.udacity.asteroidradar.entities.Asteroid
 import org.json.JSONObject
 import kotlin.collections.ArrayList
 
-fun parseAsteroidsJsonResult(
-    jsonResult: JSONObject,
+fun String.parseAsteroidsJsonResult(
     nextFormattedDate: List<String>
 ): ArrayList<Asteroid> {
-    val nearEarthObjectsJson = jsonResult.getJSONObject("near_earth_objects")
+
+    val nearEarthObjectsJson = JSONObject(this).getJSONObject("near_earth_objects")
 
     val asteroidList = ArrayList<Asteroid>()
 

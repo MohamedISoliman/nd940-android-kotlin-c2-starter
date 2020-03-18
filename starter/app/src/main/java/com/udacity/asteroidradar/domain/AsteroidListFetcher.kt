@@ -2,12 +2,13 @@ package com.udacity.asteroidradar.domain
 
 import com.udacity.asteroidradar.*
 import com.udacity.asteroidradar.entities.Asteroid
+import com.udacity.asteroidradar.local.AppDatabase
+import com.udacity.asteroidradar.local.AsteroidsDao
 import com.udacity.asteroidradar.remote.NasaRemoteApi
 import com.udacity.asteroidradar.remote.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.remote.remoteFactory
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import com.udacity.asteroidradar.remote.RemoteFactory
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import org.json.JSONObject
 import java.util.*
 
@@ -16,24 +17,26 @@ import java.util.*
  * Created by Mohamed Ibrahim on 3/17/20.
  */
 
-class AsteroidListFetcher(private val remoteApi: NasaRemoteApi = remoteFactory.nasaRemote) {
-
+class AsteroidListFetcher(
+    private val remoteApi: NasaRemoteApi = RemoteFactory.nasaRemote,
+    private val asteroidDao: AsteroidsDao = AppDependencies.database.asteroidDao()
+) {
 
     fun fetch(): Flow<List<Asteroid>> {
         val today = Calendar.getInstance().time
         val startDate = today.formattedString(Constants.API_QUERY_DATE_FORMAT)
         val nextFormattedDateList = nextFormattedDateList(today)
+
         return flow {
-            emit(
-                remoteApi.fetchNasaFeed(
-                    startDate, nextFormattedDateList.last()
-                )
-            )
-        }.map {
-            parseAsteroidsJsonResult(
-                JSONObject(it),
-                nextFormattedDateList
-            )
+            if (asteroidDao.getRowCount() > 0) {
+                emitAll(asteroidDao.getAsteroidList())
+            } else {
+                val remoteData = remoteApi.fetchNasaFeed(startDate, nextFormattedDateList.last())
+                    .parseAsteroidsJsonResult(
+                        nextFormattedDateList
+                    )
+                emit(remoteData)
+            }
         }
     }
 }
