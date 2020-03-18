@@ -1,9 +1,9 @@
 package com.udacity.asteroidradar.domain
 
 import com.udacity.asteroidradar.*
-import com.udacity.asteroidradar.api.NasaRemoteApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.api.remoteFactory
+import com.udacity.asteroidradar.remote.NasaRemoteApi
+import com.udacity.asteroidradar.remote.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.remote.remoteFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

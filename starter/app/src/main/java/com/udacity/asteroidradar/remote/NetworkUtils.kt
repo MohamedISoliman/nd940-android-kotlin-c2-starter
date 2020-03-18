@@ -1,10 +1,7 @@
-package com.udacity.asteroidradar.api
+package com.udacity.asteroidradar.remote
 
 import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 fun parseAsteroidsJsonResult(
