@@ -20,10 +20,9 @@ object AppDependencies {
     val remoteApi = RemoteFactory.nasaRemote
 
     fun init(app: Application) {
+
         initRoom(app)
         setupFetchWorkerRequest()
-
-
     }
 
     private fun initRoom(app: Application) {
