@@ -22,13 +22,13 @@ class AsteroidListFetcher(
     private val asteroidDao: AsteroidsDao = AppDependencies.database.asteroidDao()
 ) {
 
-    fun fetch(): Flow<List<Asteroid>> {
+    fun fetch(forceUpdateFromRemote: Boolean = false): Flow<List<Asteroid>> {
         val today = Calendar.getInstance().time
         val startDate = today.formattedString(Constants.API_QUERY_DATE_FORMAT)
         val nextFormattedDateList = nextFormattedDateList(today)
 
         return flow {
-            if (asteroidDao.getRowCount() > 0) {
+            if (asteroidDao.getRowCount() > 0 && forceUpdateFromRemote.not()) {
                 asteroidDao.getAsteroidList().collect { emit(it) }
             } else {
                 val remoteData = remoteApi.fetchNasaFeed(startDate, nextFormattedDateList.last())

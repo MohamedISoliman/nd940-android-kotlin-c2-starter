@@ -72,7 +72,7 @@ class MainFragment : Fragment() {
                         mainBinding.activityMainImageOfTheDay
                     )
             else mainBinding.activityMainImageOfTheDay.setImageResource(R.drawable.placeholder_picture_of_day)
-            
+
             mainBinding.textView.text = it.title
         })
     }
