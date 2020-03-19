@@ -15,6 +15,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //saved in gradle properties file, which is ignored
         buildConfigField("String", "NASA_API_KEY", NASA_API_KEY)
 
     }
