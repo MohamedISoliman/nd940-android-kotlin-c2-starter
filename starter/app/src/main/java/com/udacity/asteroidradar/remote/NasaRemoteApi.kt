@@ -7,6 +7,7 @@ import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.entities.ImageOfTheDay
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -31,18 +32,11 @@ interface NasaRemoteApi {
 
 object RemoteFactory {
 
-    val nasaRemote by lazy { createRemote() }
 
-    private fun createRemote(): NasaRemoteApi {
-
-        val moshi = Moshi.Builder()
-            .add(KotlinJsonAdapterFactory())
-            .build()
-
+    fun createRemote(converter: Converter.Factory): NasaRemoteApi {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(converter)
             .client(makeOkHttpClient())
             .build()
 
@@ -50,27 +44,38 @@ object RemoteFactory {
 
     }
 
-    private fun makeOkHttpClient(): OkHttpClient {
-
-        val interceptor = HttpLoggingInterceptor().also {
-            it.level = HttpLoggingInterceptor.Level.BODY
-        }
-        return OkHttpClient.Builder()
-            .addInterceptor { apiKeyInterceptor(it) }
-            .addInterceptor(interceptor).build()
-    }
-
-    private fun apiKeyInterceptor(it: Interceptor.Chain): Response {
-        val original: Request = it.request()
-        val originalHttpUrl: HttpUrl = original.url
-
-        val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("api_key", BuildConfig.NASA_API_KEY)
+    val moshiConverter by lazy {
+        val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
             .build()
-        val requestBuilder: Request.Builder = original.newBuilder()
-            .url(url)
-
-        val request: Request = requestBuilder.build()
-        return it.proceed(request)
+        MoshiConverterFactory.create(moshi)
     }
+
+    val scalarsConverterFactory = ScalarsConverterFactory.create()
+
+}
+
+
+private fun makeOkHttpClient(): OkHttpClient {
+
+    val interceptor = HttpLoggingInterceptor().also {
+        it.level = HttpLoggingInterceptor.Level.BODY
+    }
+    return OkHttpClient.Builder()
+        .addInterceptor { apiKeyInterceptor(it) }
+        .addInterceptor(interceptor).build()
+}
+
+private fun apiKeyInterceptor(it: Interceptor.Chain): Response {
+    val original: Request = it.request()
+    val originalHttpUrl: HttpUrl = original.url
+
+    val url = originalHttpUrl.newBuilder()
+        .addQueryParameter("api_key", BuildConfig.NASA_API_KEY)
+        .build()
+    val requestBuilder: Request.Builder = original.newBuilder()
+        .url(url)
+
+    val request: Request = requestBuilder.build()
+    return it.proceed(request)
 }

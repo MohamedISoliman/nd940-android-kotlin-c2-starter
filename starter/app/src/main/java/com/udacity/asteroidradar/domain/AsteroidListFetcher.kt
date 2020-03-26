@@ -18,7 +18,7 @@ import java.util.*
  */
 
 class AsteroidListFetcher(
-    private val remoteApi: NasaRemoteApi = AppDependencies.remoteApi,
+    private val remoteApi: NasaRemoteApi = AppDependencies.scalerRemote,
     private val asteroidDao: AsteroidsDao = AppDependencies.database.asteroidDao()
 ) {
 

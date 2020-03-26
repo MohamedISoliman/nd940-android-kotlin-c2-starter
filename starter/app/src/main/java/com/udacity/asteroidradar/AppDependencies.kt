@@ -17,7 +17,8 @@ object AppDependencies {
 
 
     lateinit var database: AppDatabase
-    val remoteApi = RemoteFactory.nasaRemote
+    val moshiRemote = RemoteFactory.createRemote(RemoteFactory.moshiConverter)
+    val scalerRemote = RemoteFactory.createRemote(RemoteFactory.scalarsConverterFactory)
 
     fun init(app: Application) {
 
@@ -27,9 +28,9 @@ object AppDependencies {
 
     private fun initRoom(app: Application) {
         database = Room.databaseBuilder(
-                app,
-                AppDatabase::class.java, "AsteroidRadar_database"
-            )
+            app,
+            AppDatabase::class.java, "AsteroidRadar_database"
+        )
             .fallbackToDestructiveMigration()
             .build()
     }
