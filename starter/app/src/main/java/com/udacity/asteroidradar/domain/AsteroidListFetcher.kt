@@ -29,7 +29,7 @@ class AsteroidListFetcher(
 
         return flow {
             if (asteroidDao.getRowCount() > 0 && forceUpdateFromRemote.not()) {
-                asteroidDao.getAsteroidList().collect { emit(it) }
+                asteroidDao.getAsteroidList(today).collect { emit(it) }
             } else {
                 val remoteData = remoteApi.fetchNasaFeed(startDate, nextFormattedDateList.last())
                     .parseAsteroidsJsonResult(

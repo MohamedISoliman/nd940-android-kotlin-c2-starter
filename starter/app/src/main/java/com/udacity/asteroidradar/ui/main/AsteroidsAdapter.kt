@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.entities.Asteroid
+import com.udacity.asteroidradar.formattedString
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.android.synthetic.main.item_asteroid.view.*
 
@@ -44,7 +46,7 @@ class AsteroidViewHolder(viewItem: View) : RecyclerView.ViewHolder(viewItem) {
                 itemView.context,
                 if (asteroid.isPotentiallyHazardous) R.color.colorAccent else android.R.color.white
             ), android.graphics.PorterDuff.Mode.MULTIPLY
-        );
+        )
     }
 
 }
